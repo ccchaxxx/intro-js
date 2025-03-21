@@ -120,10 +120,25 @@
             if (gold >= upgradeCost) {
                 gold -= upgradeCost;
                 goldPerGuess++;
-                upgradeCost = goldPerGuess * 5;
+                
+                // Calculate new cost
+                if (goldPerGuess === 2) {
+                    upgradeCost = Math.floor(upgradeCost * 1.5); // First increase is 50%
+                } else {
+                    upgradeCost = Math.floor(upgradeCost * 1.1); // Subsequent increases are 10%
+                }
+                
+                // Ensure minimum increase of 1 gold
+                if (upgradeCost <= goldPerGuess) {
+                    upgradeCost = goldPerGuess + 1;
+                }
+                
                 document.getElementById("goldCount").textContent = gold;
                 document.getElementById("goldPerGuess").textContent = goldPerGuess;
                 document.getElementById("upgradeButton").textContent = `Increase Gold Per Guess (Cost: ${upgradeCost} Gold)`;
+                document.getElementById("upgradeMessage").textContent = "";
+            } else {
+                document.getElementById("upgradeMessage").textContent = "Not enough gold!";
             }
         }
 
